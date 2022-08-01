@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
@@ -34,7 +35,11 @@ public class Player : MonoBehaviour {
             _collider.enabled = false;
             RaycastHit2D hit = Physics2D.Linecast(_pos, _pos + new Vector2(h, v));
             _collider.enabled = true;
+            if (GameManager.Instance.satiety == 0) {
+                GameManager.Instance.ReduceHp(5);
+            }
             if (hit.transform == null) {
+                GameManager.Instance.ReduceFood(5);
                 _pos += new Vector2(h, v);
             } else {
                 switch (hit.collider.tag) {
@@ -42,7 +47,21 @@ public class Player : MonoBehaviour {
                         break;
                     case "Barrier":
                         _animator.SetTrigger("Attack");
+                        GameManager.Instance.ReduceFood(5);
                         hit.collider.SendMessage("TakeDamage");
+                        break;
+                    case "Food":
+                        switch (hit.collider.name) {
+                            case "Food1(Clone)":
+                                GameManager.Instance.ReduceFood(5);
+                                GameManager.Instance.AddHp(15);
+                                break;
+                            case "Food2(Clone)":
+                                GameManager.Instance.AddFood(15);
+                                break;
+                        }
+                        _pos += new Vector2(h, v);
+                        Destroy(hit.transform.gameObject);
                         break;
                 }
             }
