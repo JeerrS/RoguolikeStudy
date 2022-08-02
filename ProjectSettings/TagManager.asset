@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Wall
   - Barrier
+  - Food
+  - Enemy
   layers:
   - Default
   - TransparentFX

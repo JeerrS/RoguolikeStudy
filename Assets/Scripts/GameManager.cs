@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour {
     public int level = 1;
     public int satiety = 100;
     public int hp = 100;
+    private bool _enemyMoveRest = false;
+
+    public List<Enemy> enemies = new List<Enemy>();
     
     // Start is called before the first frame update
     void Awake() {
@@ -34,5 +37,16 @@ public class GameManager : MonoBehaviour {
     public void AddHp(int count) {
         hp += count;
         if (hp > 150 ) hp = 150;
+    }
+
+    public void onPlayerMove() {
+        if (_enemyMoveRest) {
+            _enemyMoveRest = false;
+        } else {
+            foreach (var enemy in enemies) {
+                enemy.Move();
+            }
+            _enemyMoveRest = true;
+        }
     }
 }

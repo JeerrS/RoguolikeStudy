@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
@@ -63,8 +62,11 @@ public class Player : MonoBehaviour {
                         _pos += new Vector2(h, v);
                         Destroy(hit.transform.gameObject);
                         break;
+                    case "Enemy":
+                        break;
                 }
             }
+            GameManager.Instance.onPlayerMove();
             restTimer = 0;
         }
     }
